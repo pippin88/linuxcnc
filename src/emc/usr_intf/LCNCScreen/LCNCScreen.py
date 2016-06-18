@@ -2145,6 +2145,133 @@ class gmoccapy( object ):
         self.gcodes = self.stat.gcodes
         self.widgets.active_gcodes_label.set_label( " ".join( self.active_gcodes ) )
 
+    # replace active G codes with explanation, e.g. G8 changes to G8 = Radius Mode
+    def _expand_active_gcodes(self):
+	# define our method
+	def replace_all(text, dic):
+	    for i, j in dic.iteritems():
+	        text = text.replace(i, j)
+	    return text
+	
+	active_codes = []
+        temp = []
+        for code in sorted(self.stat.gcodes[1:]):
+            if code == -1:
+                continue
+            if code % 10 == 0:
+                temp.append("%d" % (code / 10))
+            else:
+                temp.append("%d.%d" % (code / 10, code % 10))
+        for num, code in enumerate(temp):
+            active_codes.append("G" + code + " ")
+        self.active_gcodes = active_codes
+        self.gcodes = self.stat.gcodes
+
+	#change the list into a string so we can replace
+	active_codes = " ".join(self.active_gcodes)	 
+
+	# our text the replacement will take place
+	gcode_exp = active_codes
+
+	# our dictionary with our key:values.
+	reps = {'G1 ':'\nG1 = Coordinated motion ("Straight feed")',
+		'G4 ':'\nG4 = Dwell (no motion for P seconds)',
+		'G7 ':'\nG7 = Diameter Mode',
+		'G8 ':'\nG8 = Radius Mode',
+		'G17 ':'\nG17 = Select XY plane',
+		'G18 ':'\nG18 = Select XZ plane',
+	 	'G19 ':'\nG19 = Select YZ plane',
+	    	'G20 ':'\nG20 = Inches',
+	    	'G21 ':'\nG21 = Millimeters',
+	    	'G33 ':'\nG33 = Spindle-synchronized motion',
+	    	'G33.1 ':'\nG33.1 = Rigid tapping',
+	    	'G40 ':'\nG40 = Cancel cutter radius compensation',
+	    	'G49 ':'\nG49 = Cancel tool length offset',
+	    	'G53 ':'\nG53 = Motion in machine coordinate system',
+	    	'G54 ':'\nG54 = select coordinate system 1',
+		'G55 ':'\nG55 = select coordinate system 2',
+    		'G56 ':'\nG56 = select coordinate system 3',
+    		'G57 ':'\nG57 = select coordinate system 4',
+    		'G58 ':'\nG58 = select coordinate system 5',
+    		'G59 ':'\nG59 = select coordinate system 6',
+    		'G59.1 ':'\nG59.1 = select coordinate system 7',
+    		'G59.2 ':'\nG59.2 = select coordinate system 8',
+    		'G59.3 ':'\nG59.3 = select coordinate system 9',
+    		'G61 ':'\nG61 = Exact Path mode',
+		'G61.1 ':'\nG61.1 = Exact Stop mode',
+    		'G64 ':'\nG64 = Continuous mode with optional path tolerance',
+    		'G80 ':'\nG80 = Cancel motion mode',
+	    	'G90 ':'\nG90 = Absolute distance mode',
+	    	'G91 ':'\nG91 = Incremental distance mode',
+	    	'G90.1 ':'\nG90.1 = Arc centers I,J,K are absolute',
+	    	'G91.1 ':'\nG91.1 = Arc centers I,J,K are relative to the arc\'s starting point',
+	    	'G94 ':'\nG94 = Units per minute feed rate',
+	    	'G95 ':'\nG95 = Units per revolution',
+		'G96 ':'\nG96 = CSS mode (Constant Surface Speed)',
+		'G97 ':'\nG97 = RPM mode',
+	    	'G98 ':'\nG98 = Retract to prior position',
+		'G99 ':'\nG99 = Retract to R position'
+	       }
+
+	# bind the returned text of the method
+	# to a variable and print it
+	txt = replace_all(gcode_exp, reps)
+	self.widgets.active_gcodes_exp.set_label("".join(txt))
+	 
+
+    # replace active M codes with explanation, e.g. M1 changes to M1 = Optional Pause
+    def _expand_active_mcodes(self):
+	# define our method
+	def replace_all(text, dic):
+	    for i, j in dic.iteritems():
+	        text = text.replace(i, j)
+	    return text
+	
+	# M codes
+        active_codes = []
+        temp = []
+        for code in sorted(self.stat.mcodes[1:]):
+            if code == -1:
+                continue
+            temp.append("%d" % code)
+        for code in (temp):
+            active_codes.append("M" + code + " ")
+        self.active_mcodes = active_codes
+        self.mcodes = self.stat.mcodes
+
+	#change the list into a string so we can replace
+	active_codes = " ".join(self.active_mcodes)	 
+
+	# our text the replacement will take place
+	mcode_exp = active_codes
+
+	# our dictionary with our key:values.
+	reps = {'M0 ':'\nM0 = Program Pause',
+		'M1 ':'\nM1 = Optional Pause',
+		'M2 ':'\nM2 = End Program',
+		'M3 ':'\nM3 = Turn spindle clockwise',
+		'M4 ':'\nM4 = Turn spindle counterclockwise',
+		'M5 ':'\nM5 = Stop spindle',
+		'M7 ':'\nM7 = Turn mist on',
+		'M8 ':'\nM8 = Turn flood on',
+		'M9 ':'\nM9 = Turn all coolant off',
+		'M19 ':'\nM19 = Orient spindle',
+		'M30 ':'\nM30 = End Program',
+		'M48 ':'\nM48 = Enable spindle and feed rate override controls',
+		'M49 ':'\nM49 = Disbale spindle and feed rate override controls',
+		'M50 ':'\nM50 = Feed Override Control (P0 = off, P1 = on)',
+		'M51 ':'\nM51 = Spindle Speed Override Control (P0 = off, P1 = on)',
+		'M52 ':'\nM52 = Adaptive Feed Control (P0 = off, P1 = on)',
+		'M53 ':'\nM53 = Feed Stop Control (P0 = off, P1 = on)',
+		'M60 ':'\nM60 = Pallet Change Pause'
+		}
+
+	# bind the returned text of the method
+	# to a variable and print it
+	txt = replace_all(mcode_exp, reps)
+	self.widgets.active_mcodes_exp.set_label("".join(txt)) 
+
+
     def _update_active_mcodes( self ):
         # M codes
         active_codes = []
