@@ -89,6 +89,8 @@ if debug:
             pass
 
 # constants
+#         # LCNCScreen #"
+_RELEASE = "0.001"
 _INCH = 0                         # imperial units are active
 _MM = 1                           # metric units are active
 _TEMPDIR = tempfile.gettempdir()  # Now we know where the tempdir is, usualy /tmp
@@ -99,10 +101,18 @@ LIBDIR = os.path.join( BASE, "lib", "python" )
 sys.path.insert( 0, LIBDIR )
 
 # as now we know the libdir path we can import our own modules
+from LCNCScreen import widgets       # a class to handle the widgets
+from LCNCScreen import player        # a class to handle sounds
+from LCNCScreen import notification  # this is the module we use for our error handling
+from LCNCScreeny import preferences   # this handles the preferences
+from LCNCScreen import getiniinfo    # this handles the INI File reading so checking is done in that module
+from LCNCScreen import dialogs       # this takes the code of all our dialogs
 
 # set up paths to files, part two
 CONFIGPATH = os.environ['CONFIG_DIR']
+DATADIR = os.path.join( BASE, "share", "LCNCScreen" )
 IMAGEDIR = os.path.join( DATADIR, "images" )
+XMLNAME = os.path.join( DATADIR, "LCNCScreen.glade" )
 THEMEDIR = "/usr/share/themes"
 USERTHEMEDIR = os.path.join(os.path.expanduser("~"), ".themes")
 LOCALEDIR = os.path.join( BASE, "share", "locale" )
@@ -110,6 +120,7 @@ LOCALEDIR = os.path.join( BASE, "share", "locale" )
 # path to TCL for external programs eg. halshow
 TCLPATH = os.environ['LINUXCNC_TCL_DIR']
 
+# the ICONS should must be in share/LCNCScreen/images
 ALERT_ICON = os.path.join( IMAGEDIR, "applet-critical.png" )
 INFO_ICON = os.path.join( IMAGEDIR, "std_info.gif" )
 
@@ -215,6 +226,7 @@ class gmoccapy( object ):
         self._init_user_messages()
 
         # set the title of the window, to show the release
+        self.widgets.window1.set_title( "LCNCScreen for linuxcnc %s" % _RELEASE )
         self.widgets.lbl_version.set_label( "<b>gmoccapy\n%s</b>" % _RELEASE )
 
         panel = gladevcp.makepins.GladePanel( self.halcomp, XMLNAME, self.builder, None )
