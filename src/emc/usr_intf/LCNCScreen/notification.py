@@ -279,8 +279,8 @@ class Notification(gtk.Window):
 def main():
 
     notification = Notification()
-    notification.add_message('Halo World out there', '/usr/share/gmoccapy/images/applet-critical.png')
-    notification.add_message('Hallo World ', '/usr/share/gmoccapy/images/std_info.gif')
+    notification.add_message('Halo World out there', '/usr/share/lcncscreen/images/applet-critical.png')
+    notification.add_message('Hallo World ', '/usr/share/lcncscreen/images/std_info.gif')
     notification.show()
     def debug(self, text):
         print "debug", text

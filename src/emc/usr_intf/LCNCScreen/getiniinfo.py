@@ -35,7 +35,7 @@ class GetIniInfo:
         inipath = os.environ["INI_FILE_NAME"]
         self.inifile = ini(inipath)
         if not self.inifile:
-            print("**** GMOCCAPY GETINIINFO **** \n Error, no INI File given !!")
+            print("**** LCNCScreen GETINIINFO **** \n Error, no INI File given !!")
             sys.exit()
 
     def get_postgui_halfile(self):
@@ -46,22 +46,22 @@ class GetIniInfo:
 
     def get_preference_file_path(self):
         # we get the preference file, if there is none given in the INI
-        # we use gmoccapy.pref in the config dir
+        # we use lcncscreen.pref in the config dir
         temp = self.inifile.find("DISPLAY", "PREFERENCE_FILE_PATH")
         if not temp:
             machinename = self.inifile.find("EMC", "MACHINE")
             if not machinename:
-                temp = os.path.join(CONFIGPATH, "gmoccapy.pref")
+                temp = os.path.join(CONFIGPATH, "lcncscreen.pref")
             else:
                 machinename = machinename.replace(" ", "_")
                 temp = os.path.join(CONFIGPATH, "%s.pref" % machinename)
-        print("**** GMOCCAPY GETINIINFO **** \n Preference file path: %s" % temp)
+        print("**** LCNCScreen GETINIINFO **** \n Preference file path: %s" % temp)
         return temp
 
     def get_coordinates(self):
         temp = self.inifile.find("TRAJ", "COORDINATES")
         if not temp:
-            print("**** GMOCCAPY GETINIINFO **** \n No coordinates entry found in [TRAJ] of INI file")
+            print("**** LCNCScreen GETINIINFO **** \n No coordinates entry found in [TRAJ] of INI file")
             return ("XYZ")
         return temp
 
@@ -115,7 +115,7 @@ class GetIniInfo:
         # This is the maximum velocity of the machine
         temp = self.inifile.find("TRAJ", "MAX_VELOCITY")
         if  temp == None:
-            print("**** GMOCCAPY GETINIINFO **** \n No MAX_VELOCITY found in [TRAJ] of the INI file")
+            print("**** LCNCScreen GETINIINFO **** \n No MAX_VELOCITY found in [TRAJ] of the INI file")
             temp = 15.0
         return float(temp) * 60
 
@@ -124,21 +124,21 @@ class GetIniInfo:
         temp = self.inifile.find("DISPLAY", "MAX_SPINDLE_OVERRIDE")
         if not temp:
             temp = 1.0
-            print("**** GMOCCAPY GETINIINFO **** \n No MAX_SPINDLE_OVERRIDE entry found in [DISPLAY] of INI file")
+            print("**** LCNCScreen GETINIINFO **** \n No MAX_SPINDLE_OVERRIDE entry found in [DISPLAY] of INI file")
         return float(temp)
 
     def get_min_spindle_override(self):
         temp = self.inifile.find("DISPLAY", "MIN_SPINDLE_OVERRIDE")
         if not temp:
             temp = 0.1
-            print("**** GMOCCAPY GETINIINFO **** \n No MIN_SPINDLE_OVERRIDE entry found in [DISPLAY] of INI file")
+            print("**** LCNCScreen GETINIINFO **** \n No MIN_SPINDLE_OVERRIDE entry found in [DISPLAY] of INI file")
         return float(temp)
 
     def get_max_feed_override(self):
         temp = self.inifile.find("DISPLAY", "MAX_FEED_OVERRIDE")
         if not temp:
             temp = 1.0
-            print("**** GMOCCAPY GETINIINFO **** \n No MAX_FEED_OVERRIDE entry found in [DISPLAY] of INI file")
+            print("**** LCNCScreen GETINIINFO **** \n No MAX_FEED_OVERRIDE entry found in [DISPLAY] of INI file")
         return float(temp)
 
     def get_embedded_tabs(self):
@@ -173,12 +173,12 @@ class GetIniInfo:
         # and we want to set the default path
         default_path = self.inifile.find("DISPLAY", "PROGRAM_PREFIX")
         if not default_path:
-            print("**** GMOCCAPY GETINIINFO **** \n Path %s from DISPLAY , PROGRAM_PREFIX does not exist" % default_path)
-            print("**** GMOCCAPY GETINIINFO **** \n Trying default path...")
+            print("**** LCNCScreen GETINIINFO **** \n Path %s from DISPLAY , PROGRAM_PREFIX does not exist" % default_path)
+            print("**** LCNCScreen GETINIINFO **** \n Trying default path...")
             default_path = "~/linuxcnc/nc_files/"
             if not os.path.exists(os.path.expanduser(default_path)):
-                print("**** GMOCCAPY GETINIINFO **** \n Default path to ~/linuxcnc/nc_files does not exist")
-                print("**** GMOCCAPY GETINIINFO **** \n setting now home as path")
+                print("**** LCNCScreen GETINIINFO **** \n Default path to ~/linuxcnc/nc_files does not exist")
+                print("**** LCNCScreen GETINIINFO **** \n setting now home as path")
                 default_path = os.path.expanduser("~/")
         return default_path
 
@@ -192,8 +192,8 @@ class GetIniInfo:
                     ext = extension.split()
                     ext_list.append(ext[0].replace(".", "*."))
         else:
-            print("**** GMOCCAPY GETINIINFO **** \n Error converting the file extensions from INI File 'FILTER','PROGRAMM_PREFIX")
-            print("**** GMOCCAPY GETINIINFO **** \n using as default '*.ngc'")
+            print("**** LCNCScreen GETINIINFO **** \n Error converting the file extensions from INI File 'FILTER','PROGRAMM_PREFIX")
+            print("**** LCNCScreen GETINIINFO **** \n using as default '*.ngc'")
             ext_list = ["*.ngc"]
         return ext_list
 
@@ -209,7 +209,7 @@ class GetIniInfo:
             jog_increments.insert(0, 0)
         else:
             jog_increments = [0, "1,000", "0,100", "0,010", "0,001"]
-            print("**** GMOCCAPY GETINIINFO **** \n No default jog increments entry found in [DISPLAY] of INI file")
+            print("**** LCNCScreen GETINIINFO **** \n No default jog increments entry found in [DISPLAY] of INI file")
         return jog_increments
 
     def get_toolfile(self):
@@ -253,12 +253,12 @@ class GetIniInfo:
         message_type = self.inifile.findall("DISPLAY", "MESSAGE_TYPE")
         message_pinname = self.inifile.findall("DISPLAY", "MESSAGE_PINNAME")
         if len(message_text) != len(message_type) or len(message_text) != len(message_pinname):
-            print("**** GMOCCAPY GETINIINFO **** \n ERROR in user message setup")
+            print("**** LCNCScreen GETINIINFO **** \n ERROR in user message setup")
             return None
         else:
             for element in message_pinname:
                 if " " in element:
-                    print("**** GMOCCAPY GETINIINFO **** \n ERROR in user message setup \n Pinname should not contain spaces")
+                    print("**** LCNCScreen GETINIINFO **** \n ERROR in user message setup \n Pinname should not contain spaces")
                     return None
             messages = zip(message_text, message_type, message_pinname)
             return messages

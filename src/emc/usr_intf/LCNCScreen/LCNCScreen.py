@@ -2,7 +2,7 @@
 # -*- coding:UTF-8 -*-
 """
 	LCNCScreen - a GUI for LinuxCNC
-	Based on gmoccapy by Norbert Schechner
+	Based on lcncscreen by Norbert Schechner
 	Designed for use with mouse and keyboard
 
     A try of a new GUI for LinuxCNC based on gladevcp and Python
@@ -110,9 +110,9 @@ from LCNCScreen import dialogs       # this takes the code of all our dialogs
 
 # set up paths to files, part two
 CONFIGPATH = os.environ['CONFIG_DIR']
-DATADIR = os.path.join( BASE, "share", "LCNCScreen" )
+DATADIR = os.path.join( BASE, "share", "lcncscreen" )
 IMAGEDIR = os.path.join( DATADIR, "images" )
-XMLNAME = os.path.join( DATADIR, "LCNCScreen.glade" )
+XMLNAME = os.path.join( DATADIR, "lcncscreen.glade" )
 THEMEDIR = "/usr/share/themes"
 USERTHEMEDIR = os.path.join(os.path.expanduser("~"), ".themes")
 LOCALEDIR = os.path.join( BASE, "share", "locale" )
@@ -130,17 +130,17 @@ color = gtk.gdk.Color()
 INVISABLE = gtk.gdk.Cursor( pixmap, pixmap, color, color, 0, 0 )
 
 
-class gmoccapy( object ):
+class lcncscreen( object ):
     def __init__( self ):
 
         # prepare for translation / internationalisation
         locale.setlocale( locale.LC_ALL, '' )
-        locale.bindtextdomain( "gmoccapy", LOCALEDIR )
-        gettext.install( "gmoccapy", localedir = LOCALEDIR, unicode = True )
-        gettext.bindtextdomain( "gmoccapy", LOCALEDIR )
+        locale.bindtextdomain( "lcncscreen", LOCALEDIR )
+        gettext.install( "lcncscreen", localedir = LOCALEDIR, unicode = True )
+        gettext.bindtextdomain( "lcncscreen", LOCALEDIR )
 
         # needed components to comunicate with hal and linuxcnc
-        self.halcomp = hal.component( "gmoccapy" )
+        self.halcomp = hal.component( "lcncscreen" )
         self.command = linuxcnc.command()
         self.stat = linuxcnc.stat()
         self.error_channel = linuxcnc.error_channel()
@@ -150,7 +150,7 @@ class gmoccapy( object ):
 
         self.builder = gtk.Builder()
         # translation of the glade file will be done with
-        self.builder.set_translation_domain( "gmoccapy" )
+        self.builder.set_translation_domain( "lcncscreen" )
         self.builder.add_from_file( XMLNAME )
         self.builder.connect_signals( self )
 
@@ -227,7 +227,7 @@ class gmoccapy( object ):
 
         # set the title of the window, to show the release
         self.widgets.window1.set_title( "LCNCScreen for linuxcnc %s" % _RELEASE )
-        self.widgets.lbl_version.set_label( "<b>gmoccapy\n%s</b>" % _RELEASE )
+        self.widgets.lbl_version.set_label( "<b>lcncscreen\n%s</b>" % _RELEASE )
 
         panel = gladevcp.makepins.GladePanel( self.halcomp, XMLNAME, self.builder, None )
 
@@ -282,7 +282,7 @@ class gmoccapy( object ):
         self.widgets.fontbutton_popup.set_font_name( self.prefs.getpref( "message_font", "sans 10", str ) )
         self.widgets.chk_use_frames.set_active( self.prefs.getpref( "use_frames", True, bool ) )
 
-        # Only used if the DRO buttons will remain in gmoccapy
+        # Only used if the DRO buttons will remain in lcncscreen
         self.widgets.chk_show_dro_btn.set_active( self.prefs.getpref( "show_dro_btn", False, bool ) )
         self.widgets.chk_auto_units.set_active( self.prefs.getpref( "use_auto_units", True, bool ) )
         self.on_chk_show_dro_btn_toggled( None )
@@ -394,7 +394,7 @@ class gmoccapy( object ):
             self.widgets.lbl_tool_measurement.show()
             self.widgets.btn_zero_g92.show()
             self.widgets.btn_block_height.hide()
-            print( _( "**** GMOCCAPY INFO ****" ) )
+            print( _( "**** LCNCScreen INFO ****" ) )
             print( _( "**** no valid probe config in INI File ****" ) )
             print( _( "**** disabled tool measurement ****" ) )
         else:
@@ -529,7 +529,7 @@ class gmoccapy( object ):
         LANGDIR = os.path.join( BASE, "share", "gtksourceview-2.0", "language-specs" )
         file_path = os.path.join( LANGDIR, "gcode.lang" )
         if os.path.isfile( file_path ):
-            print "**** GMOCCAPY INFO: Gcode.lang found ****"
+            print "**** LCNCScreen INFO: Gcode.lang found ****"
             self.widgets.gcode_view.set_language( "gcode", LANGDIR )
 
         # set the user colors and digits of the DRO
@@ -754,11 +754,11 @@ class gmoccapy( object ):
             return
         axis_four = list( set( self.axis_list ) - set( ( "x", "y", "z" ) ) )
         if len( axis_four ) > 1:
-            message = _( "**** GMOCCAPY ERROR : ****" )
+            message = _( "**** LCNCScreen ERROR : ****" )
             message += _( 
-                "**** gmoccapy can only handle 4 axis, ****\n**** but you have given %d through your INI file ****\n" % len( 
+                "**** lcncscreen can only handle 4 axis, ****\n**** but you have given %d through your INI file ****\n" % len( 
                     self.axis_list ) )
-            message += _( "**** gmoccapy will not start ****\n\n" )
+            message += _( "**** lcncscreen will not start ****\n\n" )
             print( message )
             self.widgets.window1.destroy()
         self.axisletter_four = axis_four[0]
@@ -868,7 +868,7 @@ class gmoccapy( object ):
         # We get the increments from INI File
         self.jog_increments = self.get_ini_info.get_increments()
         if len( self.jog_increments ) > 10:
-            print( _( "**** GMOCCAPY INFO ****" ) )
+            print( _( "**** LCNCScreen INFO ****" ) )
             print( _( "**** Too many increments given in INI File for this screen ****" ) )
             print( _( "**** Only the first 10 will be reachable through this screen ****" ) )
             # we shorten the incrementlist to 10 (first is default = 0)
@@ -905,21 +905,21 @@ class gmoccapy( object ):
     def _check_screen2( self ):
         # second screen
         self.screen2 = False
-        screen2 = os.path.join( CONFIGPATH, "gmoccapy2.glade" )
+        screen2 = os.path.join( CONFIGPATH, "lcncscreen2.glade" )
         if os.path.exists( screen2 ):
-            print ( _( "**** GMOCCAPY INFO ****" ) )
-            print ( _( "**** gmoccapy screen 2 found ****" ) )
+            print ( _( "**** LCNCScreen INFO ****" ) )
+            print ( _( "**** lcncscreen screen 2 found ****" ) )
             try:
                 self.builder.add_from_file( screen2 )
                 self.screen2 = True
             except Exception, e:
-                print ( _( "**** GMOCCAPY ERROR ****" ) )
+                print ( _( "**** LCNCScreen ERROR ****" ) )
                 print _( "**** screen 2 GLADE ERROR: ****" )
                 self.widgets.tbtn_use_screen2.set_sensitive( False )
                 traceback.print_exc()
         else:
-            print ( _( "**** GMOCCAPY INFO ****" ) )
-            print _( "**** No gmoccapy2.glade file present ****" )
+            print ( _( "**** LCNCScreen INFO ****" ) )
+            print _( "**** No lcncscreen2.glade file present ****" )
             self.widgets.tbtn_use_screen2.set_sensitive( False )
 
 # =============================================================
@@ -933,7 +933,7 @@ class gmoccapy( object ):
 
         tab_names, tab_location, tab_cmd = self.get_ini_info.get_embedded_tabs()
         if not tab_names:
-            print ( _( "**** GMOCCAPY INFO ****" ) )
+            print ( _( "**** LCNCScreen INFO ****" ) )
             print ( _( "**** Invalid embedded tab configuration ****" ) )
             print ( _( "**** No tabs will be added! ****" ) )
             return
@@ -962,7 +962,7 @@ class gmoccapy( object ):
                 return None
         return s.get_id()
 
-    # Gotta kill the embedded processes when gmoccapy closes
+    # Gotta kill the embedded processes when lcncscreen closes
     def _kill_dynamic_childs( self ):
         for child in self._dynamic_childs.values():
             child.terminate()
@@ -986,7 +986,7 @@ class gmoccapy( object ):
         # get the path to the tool table
         tooltable = self.get_ini_info.get_toolfile()
         if not tooltable:
-            print( _( "**** GMOCCAPY ERROR ****" ) )
+            print( _( "**** LCNCScreen ERROR ****" ) )
             print( _( "**** Did not find a toolfile file in [EMCIO] TOOL_TABLE ****" ) )
             sys.exit()
         toolfile = os.path.join( CONFIGPATH, tooltable )
@@ -1030,10 +1030,10 @@ class gmoccapy( object ):
             import gst
 
             self._AUDIO_AVAILABLE = True
-            print ( _( "**** GMOCCAPY INFO ****" ) )
+            print ( _( "**** LCNCScreen INFO ****" ) )
             print ( _( "**** audio available! ****" ) )
         except:
-            print ( _( "**** GMOCCAPY INFO ****" ) )
+            print ( _( "**** LCNCScreen INFO ****" ) )
             print ( _( "**** no audio available! ****" ) )
             print( _( "**** PYGST libray not installed? ****" ) )
             return
@@ -1087,17 +1087,17 @@ class gmoccapy( object ):
                                                    stdin = subprocess.PIPE,
                                                    stdout = subprocess.PIPE,
                                                    close_fds = True )
-                print ( _( "**** GMOCCAPY INFO ****" ) )
+                print ( _( "**** LCNCScreen INFO ****" ) )
                 print ( _( "**** virtual keyboard program found : <onboard>" ) )
             elif os.path.isfile( "/usr/bin/matchbox-keyboard" ):
                 self.onboard_kb = subprocess.Popen( ["matchbox-keyboard", "--xid"],
                                                    stdin = subprocess.PIPE,
                                                    stdout = subprocess.PIPE,
                                                    close_fds = True )
-                print ( _( "**** GMOCCAPY INFO ****" ) )
+                print ( _( "**** LCNCScreen INFO ****" ) )
                 print ( _( "**** virtual keyboard program found : <matchbox-keyboard>" ) )
             else:
-                print ( _( "**** GMOCCAPY INFO ****" ) )
+                print ( _( "**** LCNCScreen INFO ****" ) )
                 print ( _( "**** No virtual keyboard installed, we checked for <onboard> and <matchbox-keyboard>." ) )
                 self._no_virt_keyboard()
                 return
@@ -1108,7 +1108,7 @@ class gmoccapy( object ):
             socket.add_id( long( sid ) )
             self.onboard = True
         except Exception, e:
-            print ( _( "**** GMOCCAPY ERROR ****" ) )
+            print ( _( "**** LCNCScreen ERROR ****" ) )
             print ( _( "**** Error launching virtual keyboard," ) )
             print ( _( "**** is onboard or matchbox-keyboard installed? ****" ) )
             traceback.print_exc()
@@ -1156,7 +1156,7 @@ class gmoccapy( object ):
 
         parameterfile = self.get_ini_info.get_parameter_file()
         if not parameterfile:
-            print( _( "**** GMOCCAPY ERROR ****" ) )
+            print( _( "**** LCNCScreen ERROR ****" ) )
             print( _( "**** Did not find a parameter file in [RS274NGC] PARAMETER_FILE ****" ) )
             sys.exit()
         path = os.path.join( CONFIGPATH, parameterfile )
@@ -1260,7 +1260,7 @@ class gmoccapy( object ):
                 pin = hal_glib.GPin( 
                     self.halcomp.newpin( "messages." + message[2] + "-responce", hal.HAL_BIT, hal.HAL_OUT ) )
             else:
-                print( _( "**** GMOCCAPY ERROR **** /n Message type %s not suported" % message[1] ) )
+                print( _( "**** LCNCScreen ERROR **** /n Message type %s not suported" % message[1] ) )
 
     def _show_user_message( self, pin, message ):
         if message[1] == "status":
@@ -1284,7 +1284,7 @@ class gmoccapy( object ):
             else:
                 self.halcomp["messages." + message[2] + "-waiting"] = 0
         else:
-            print( _( "**** GMOCCAPY ERROR **** /n Message type %s not suported" % message[1] ) )
+            print( _( "**** LCNCScreen ERROR **** /n Message type %s not suported" % message[1] ) )
 
     def _show_offset_tab( self, state ):
         page = self.widgets.ntb_preview.get_nth_page( 1 )
@@ -1748,7 +1748,7 @@ class gmoccapy( object ):
 
     # kill keyboard and estop machine before closing
     def on_window1_destroy( self, widget, data = None ):
-        print "estopping / killing gmoccapy"
+        print "estopping / killing lcncscreen"
         self._kill_keyboard()
         self.command.state( linuxcnc.STATE_OFF )
         self.command.state( linuxcnc.STATE_ESTOP )
@@ -1759,14 +1759,14 @@ class gmoccapy( object ):
         o_codes = data.split()
         subroutines_path = self.get_ini_info.get_subroutine_path()
         if not subroutines_path:
-            message = _( "**** GMOCCAPY ERROR ****" )
+            message = _( "**** LCNCScreen ERROR ****" )
             message += _( "\n**** No subroutine folder or program prefix is given in the ini file **** \n" )
             message += _( "**** so the corresponding file could not be found ****" )
             dialogs.warning_dialog( self, _( "Important Warning" ), message )
             return
         file = subroutines_path + "/" + o_codes[0] + ".ngc"
         if not os.path.isfile( file ):
-            message = _( "**** GMOCCAPY ERROR ****" )
+            message = _( "**** LCNCScreen ERROR ****" )
             message += _( "\n**** File %s of the macro could not be found ****\n" % [o_codes[0] + ".ngc"] )
             message += _( "**** we searched in subdirectory %s ****" % subroutines_path )
             dialogs.warning_dialog( self, _( "Important Warning" ), message )
@@ -2070,7 +2070,7 @@ class gmoccapy( object ):
             if item[1] == old_value:
                 new_tupple = ( item[0], new_value )
                 item = new_tupple
-                print( _( "**** GMOCCAPY INFO ****" ) )
+                print( _( "**** LCNCScreen INFO ****" ) )
                 print( _( "**** replaced {0} to {1} ****".format( old_value, new_value ) ) )
             self.h_tabs[int_tab].append( item )
 
@@ -2079,7 +2079,7 @@ class gmoccapy( object ):
         macros = self.get_ini_info.get_macros()
         num_macros = len( macros )
         if num_macros > 9:
-            message = _( "**** GMOCCAPY INFO ****" )
+            message = _( "**** LCNCScreen INFO ****" )
             message += _( "\n**** found more than 9 macros, only the first 9 will be used ****" )
             print( message )
             num_macros = 9
@@ -2112,7 +2112,7 @@ class gmoccapy( object ):
     def show_try_errors( self ):
         exc_type, exc_value, exc_traceback = sys.exc_info()
         formatted_lines = traceback.format_exc().splitlines()
-        print( _( "**** GMOCCAPY ERROR ****" ) )
+        print( _( "**** LCNCScreen ERROR ****" ) )
         print( _( "**** %s ****" % formatted_lines[0] ) )
         traceback.print_tb( exc_traceback, limit = 1, file = sys.stdout )
         print ( formatted_lines[-1] )
@@ -2122,7 +2122,7 @@ class gmoccapy( object ):
             try:
                 self.widgets[name].set_sensitive( value )
             except Exception, e:
-                print ( _( "**** GMOCCAPY ERROR ****" ) )
+                print ( _( "**** LCNCScreen ERROR ****" ) )
                 print _( "**** No widget named: %s to sensitize ****" % name )
                 traceback.print_exc()
 
@@ -2345,7 +2345,7 @@ class gmoccapy( object ):
         if self.lathe_mode:
             self.widgets.Combi_DRO_y.set_order( order )
         self._offset_changed( None, None )
-# from here only needed, if the DRO button will remain in gmoccapy
+# from here only needed, if the DRO button will remain in lcncscreen
         if order[0] == "Abs" and self.widgets.tbtn_rel.get_label() != "Abs":
             self.widgets.tbtn_rel.set_active( False )
         if order[0] == "Rel" and self.widgets.tbtn_rel.get_label() != self.widgets.Combi_DRO_x.system:
@@ -2354,7 +2354,7 @@ class gmoccapy( object ):
             self.widgets.tbtn_dtg.set_active( True )
         else:
             self.widgets.tbtn_dtg.set_active( False )
-# to here only needed, if the DRO button will remain in gmoccapy
+# to here only needed, if the DRO button will remain in lcncscreen
 
     def _offset_changed( self, pin, tooloffset ):
         if self.widgets.Combi_DRO_x.machine_units == _MM:
@@ -2371,7 +2371,7 @@ class gmoccapy( object ):
             self.widgets.btn_set_selected.set_sensitive( True )
 
 # =========================================================
-# from here only needed, if the DRO button will remain in gmoccapy
+# from here only needed, if the DRO button will remain in lcncscreen
 
     def on_Combi_DRO_system_changed( self, widget, system ):
         if self.widgets.tbtn_rel.get_active():
@@ -2474,7 +2474,7 @@ class gmoccapy( object ):
             self.widgets.chk_auto_units.set_sensitive( True )
         self.prefs.putpref( "show_dro_btn", self.widgets.chk_show_dro_btn.get_active(), bool )
 
-# to here only needed, if the DRO button will remain in gmoccapy
+# to here only needed, if the DRO button will remain in lcncscreen
 # =========================================================
 
     def on_adj_x_pos_popup_value_changed( self, widget, data = None ):
@@ -4151,12 +4151,12 @@ class gmoccapy( object ):
 #        print widget.get_highlight_line()
 
 if __name__ == "__main__":
-    app = gmoccapy()
+    app = lcncscreen()
 
     inifile = sys.argv[2]
-    print ( "**** GMOCCAPY INFO : inifile = %s ****:" % sys.argv[2] )
+    print ( "**** LCNCScreen INFO : inifile = %s ****:" % sys.argv[2] )
     postgui_halfile = app.get_ini_info.get_postgui_halfile()
-    print ( "**** GMOCCAPY INFO : postgui halfile = %s ****:" % postgui_halfile )
+    print ( "**** LCNCScreen INFO : postgui halfile = %s ****:" % postgui_halfile )
 
     if postgui_halfile:
         if postgui_halfile.lower().endswith('.tcl'):

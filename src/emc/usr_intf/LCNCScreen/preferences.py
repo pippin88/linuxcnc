@@ -27,7 +27,7 @@ class preferences(cp):
     def __init__(self, path = None):
         cp.__init__(self)
         if not path:
-            path = "~/.gmoccapy_preferences"
+            path = "~/.lcncscreen_preferences"
         self.fn = os.path.expanduser(path)
         self.read(self.fn)
 
