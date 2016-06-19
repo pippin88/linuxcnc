@@ -1039,6 +1039,7 @@
                                                     <property name="width_request">50</property>
                                                     <property name="height_request">50</property>
                                                     <property name="visible">True</property>
+                                                    <property name="tooltip_text" translatable="yes">Toggle fast / slow jog</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
                                                     <signal name="toggled" handler="on_tbtn_turtle_jog_toggled"/>
