@@ -101,12 +101,12 @@ LIBDIR = os.path.join( BASE, "lib", "python" )
 sys.path.insert( 0, LIBDIR )
 
 # as now we know the libdir path we can import our own modules
-from LCNCScreen import widgets       # a class to handle the widgets
-from LCNCScreen import player        # a class to handle sounds
-from LCNCScreen import notification  # this is the module we use for our error handling
-from LCNCScreen import preferences   # this handles the preferences
-from LCNCScreen import getiniinfo    # this handles the INI File reading so checking is done in that module
-from LCNCScreen import dialogs       # this takes the code of all our dialogs
+from lcncscreen import widgets       # a class to handle the widgets
+from lcncscreen import player        # a class to handle sounds
+from lcncscreen import notification  # this is the module we use for our error handling
+from lcncscreen import preferences   # this handles the preferences
+from lcncscreen import getiniinfo    # this handles the INI File reading so checking is done in that module
+from lcncscreen import dialogs       # this takes the code of all our dialogs
 
 # set up paths to files, part two
 CONFIGPATH = os.environ['CONFIG_DIR']
@@ -120,7 +120,7 @@ LOCALEDIR = os.path.join( BASE, "share", "locale" )
 # path to TCL for external programs eg. halshow
 TCLPATH = os.environ['LINUXCNC_TCL_DIR']
 
-# the ICONS should must be in share/LCNCScreen/images
+# the ICONS should must be in share/lcncscreen/images
 ALERT_ICON = os.path.join( IMAGEDIR, "applet-critical.png" )
 INFO_ICON = os.path.join( IMAGEDIR, "std_info.gif" )
 
@@ -140,7 +140,7 @@ class lcncscreen( object ):
         gettext.bindtextdomain( "lcncscreen", LOCALEDIR )
 
         # needed components to comunicate with hal and linuxcnc
-        self.halcomp = hal.component( "lcncscreen" )
+        self.halcomp = hal.component( "gmoccapy" )
         self.command = linuxcnc.command()
         self.stat = linuxcnc.stat()
         self.error_channel = linuxcnc.error_channel()
@@ -150,7 +150,7 @@ class lcncscreen( object ):
 
         self.builder = gtk.Builder()
         # translation of the glade file will be done with
-        self.builder.set_translation_domain( "lcncscreen" )
+        self.builder.set_translation_domain( "gmoccapy" )
         self.builder.add_from_file( XMLNAME )
         self.builder.connect_signals( self )
 
