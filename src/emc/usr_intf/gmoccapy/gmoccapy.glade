@@ -2152,6 +2152,7 @@
                                                             <property name="width_request">56</property>
                                                             <property name="height_request">56</property>
                                                             <property name="visible">True</property>
+                                                            <property name="tooltip_text" translatable="yes">Reverse (Counterclockwise)</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">False</property>
@@ -2176,6 +2177,7 @@
                                                             <property name="width_request">56</property>
                                                             <property name="height_request">56</property>
                                                             <property name="visible">True</property>
+                                                            <property name="tooltip_text" translatable="yes">Forward (Clockwise)</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">False</property>
@@ -2203,6 +2205,7 @@
                                                             <property name="height_request">56</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
+                                                            <property name="tooltip_text" translatable="yes">Stop spindle</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">False</property>
