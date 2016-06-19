@@ -2015,7 +2015,7 @@
                                                         <property name="visible">True</property>
                                                         <property name="tooltip_text" translatable="yes">Toggle mist cooling</property>
                                                         <property name="can_focus">True</property>
-                                                        <property name="receives_default">True</property>
+                                                        <property name="receives_default">False</property>
                                                         <property name="image">img_mist_off</property>
                                                         <signal name="toggled" handler="on_tbtn_mist_toggled"/>
                                                       </object>
@@ -2154,7 +2154,7 @@
                                                             <property name="width_request">56</property>
                                                             <property name="height_request">56</property>
                                                             <property name="visible">True</property>
-                                                            <property name="tooltip_text" translatable="yes">Reverse (Counterclockwise)</property>
+                                                            <property name="tooltip_text" translatable="yes">Run spindle in reverse (Counterclockwise)</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">False</property>
@@ -2179,7 +2179,7 @@
                                                             <property name="width_request">56</property>
                                                             <property name="height_request">56</property>
                                                             <property name="visible">True</property>
-                                                            <property name="tooltip_text" translatable="yes">Forward (Clockwise)</property>
+                                                            <property name="tooltip_text" translatable="yes">Run spindle forward (Clockwise)</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">False</property>
