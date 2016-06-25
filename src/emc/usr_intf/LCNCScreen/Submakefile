@@ -1,28 +1,28 @@
-GMOCCAPY_MODULES = dialogs getiniinfo notification player preferences widgets
+LCNCSCREEN_MODULES = dialogs getiniinfo notification player preferences widgets
 
-PYTARGETS += ../bin/gmoccapy ../lib/python/gmoccapy/__init__.py $(patsubst %,../lib/python/gmoccapy/%.py,$(GMOCCAPY_MODULES)) \
-	../share/gmoccapy/gmoccapy.glade 
+PYTARGETS += ../bin/lcncscreen ../lib/python/lcncscreen/__init__.py $(patsubst %,../lib/python/lcncscreen/%.py,$(lcncscreen_MODULES)) \
+	../share/lcncscreen/lcncscreen.glade 
 
-PYI18NSRCS += emc/usr_intf/gmoccapy/gmoccapy.py $(patsubst %,emc/usr_intf/gmoccapy/%.py,$(GMOCCAPY_MODULES)) \
-	emc/usr_intf/gmoccapy/gmoccapy.glade 
+PYI18NSRCS += emc/usr_intf/lcncscreen/lcncscreen.py $(patsubst %,emc/usr_intf/lcncscreen/%.py,$(lcncscreen_MODULES)) \
+	emc/usr_intf/lcncscreen/lcncscreen.glade 
 
-../lib/python/gmoccapy/__init__.py:
-	@mkdir -p ../lib/python/gmoccapy
+../lib/python/lcncscreen/__init__.py:
+	@mkdir -p ../lib/python/lcncscreen
 	@touch $@
 
-../lib/python/gmoccapy/%: emc/usr_intf/gmoccapy/%
+../lib/python/lcncscreen/%: emc/usr_intf/lcncscreen/%
 	@$(ECHO) Syntax checking python script $(notdir $@)
 	$(Q)$(PYTHON) -c 'import sys; compile(open(sys.argv[1]).read(), sys.argv[1], "exec")' $<
 	$(ECHO) Copying python script $(notdir $@)
-	$(Q)mkdir -p ../lib/python/gmoccapy
+	$(Q)mkdir -p ../lib/python/lcncscreen
 	$(Q)cp $< $@
 
-../share/gmoccapy/gmoccapy.glade: emc/usr_intf/gmoccapy/gmoccapy.glade
+../share/lcncscreen/lcncscreen.glade: emc/usr_intf/lcncscreen/lcncscreen.glade
 	$(ECHO) Copying glade file $(notdir $@)
 	$(Q)mkdir -p $(dir $@)
 	$(Q)cp -f $< $@
 
-../bin/gmoccapy: emc/usr_intf/gmoccapy/gmoccapy.py
+../bin/lcncscreen: emc/usr_intf/lcncscreen/lcncscreen.py
 	@$(ECHO) Syntax checking python script $(notdir $@)
 	$(Q)$(PYTHON) -c 'import sys; compile(open(sys.argv[1]).read(), sys.argv[1], "exec")' $<
 	$(ECHO) Copying python script $(notdir $@)
